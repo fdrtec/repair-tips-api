@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import br.com.fdrtec.api.entities.Dica;
 
@@ -15,8 +16,11 @@ public class DicaDao {
 	EntityManager em;
 	
 	public List<Dica> getAll(){
-		String query = "select d from Dica d";
-		return em.createQuery(query, Dica.class).getResultList();		
+//		String query = "select d from Dica d";
+//		return em.createQuery(query, Dica.class).getResultList();
+		String jpql = "select d from Dica d inner join fetch d.pecas p";
+		TypedQuery<Dica> query = em.createQuery(jpql, Dica.class);
+		return query.getResultList();
 	}
 	
 	public void persist(Dica item) {

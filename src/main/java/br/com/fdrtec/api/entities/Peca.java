@@ -1,10 +1,24 @@
 package br.com.fdrtec.api.entities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -12,29 +26,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+//@EqualsAndHashCode
 @Entity
-@Table(name="peca")
-public class Peca {	
+@Table(name = "peca")
+public class Peca {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;	
-	
+	private Long id;
+
 //	@Column(name = "nome_traduzido")
-	private String nomeTraduzido;	
-	
+	private String nomeTraduzido;
+
 //	@Column(name = "nome_original")
 	private String nomeOriginal;
-	
+
 	private String codigo;
-	
+
+//	@JsonbTransient
+//	@JsonBackReference
+	@ManyToMany(mappedBy = "pecas", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@Fetch(FetchMode.SUBSELECT)
+//	private Set<Dica> dicas = new HashSet<>();
+	private List<Dica> dicas = new ArrayList<>();
+
+
 //	@ManyToMany(mappedBy = "pecas", fetch = FetchType.EAGER)
-	
+//    @JsonbTransient
+//	private Set<Dica> dicas = new HashSet<>();
+
 //	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
 //	@Fetch(FetchMode.SUBSELECT)
 //	@JoinTable(
@@ -43,7 +66,7 @@ public class Peca {
 //		joinColumns = @JoinColumn(name = "idCategoria"), 
 //		inverseJoinColumns = @JoinColumn(name = "idSegmentoMercado"))
 //	private List<SegmentoMercado> segmentosMercado;
-	
-//	@ManyToMany(mappedBy = "pecas",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-//	private List<Dica> dicas = new ArrayList<>();
+
+//	@ManyToMany(mappedBy = "pecas", fetch = FetchType.EAGER)
+//	private Set<Dica> dicas = new HashSet<>();
 }

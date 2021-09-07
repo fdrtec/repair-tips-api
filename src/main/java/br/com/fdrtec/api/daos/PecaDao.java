@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import br.com.fdrtec.api.entities.Peca;
 
@@ -16,8 +17,11 @@ public class PecaDao {
 	
 	
 	public List<Peca> getAll() {
-		String query = "SELECT itens FROM Peca itens";
-		return em.createQuery(query, Peca.class).getResultList();
+//		String query = "SELECT itens FROM Peca itens";
+//		return em.createQuery(query, Peca.class).getResultList();
+		String jpql = "select p from Peca p inner join fetch p.dicas d";
+		TypedQuery<Peca> query = em.createQuery(jpql, Peca.class);
+		return query.getResultList();
 	}
 	
 	public void persist(Peca item) {
