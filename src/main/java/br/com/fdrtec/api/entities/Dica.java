@@ -1,7 +1,10 @@
 package br.com.fdrtec.api.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,7 +31,12 @@ import lombok.Setter;
 @EqualsAndHashCode
 @Entity
 @Table(name = "dica")
-public class Dica {
+public class Dica implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -44,15 +51,10 @@ public class Dica {
 
 //	@ManyToMany(cascade = CascadeType.MERGE)
 
-//	@ManyToMany( cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-//	private Set<Peca> pecas = new HashSet<>();
-
 	@ManyToMany(fetch = FetchType.EAGER)
-	@Fetch(FetchMode.SUBSELECT)
-//	@JsonManagedReference
 	@JoinTable(name = "dica_peca", joinColumns = @JoinColumn(name = "dica_id"), inverseJoinColumns = @JoinColumn(name = "peca_id"))
-//	@JsonBackReference("dicas")
-//	private Set<Peca> pecas = new HashSet<>();
+    @JsonIgnoreProperties("dicas")	
 	private List<Peca> pecas = new ArrayList<>();
+//	private Set<Peca> pecas = new HashSet<>();
 
 }

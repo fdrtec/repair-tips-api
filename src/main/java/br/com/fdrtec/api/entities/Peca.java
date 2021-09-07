@@ -1,11 +1,11 @@
 package br.com.fdrtec.api.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,10 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,10 +27,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@EqualsAndHashCode
+@EqualsAndHashCode
 @Entity
 @Table(name = "peca")
-public class Peca {
+public class Peca implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -46,11 +48,8 @@ public class Peca {
 
 	private String codigo;
 
-//	@JsonbTransient
-//	@JsonBackReference
 	@ManyToMany(mappedBy = "pecas", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	@Fetch(FetchMode.SUBSELECT)
-//	private Set<Dica> dicas = new HashSet<>();
+    @JsonIgnoreProperties("pecas")
 	private List<Dica> dicas = new ArrayList<>();
 
 
