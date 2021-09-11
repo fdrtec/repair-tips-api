@@ -5,8 +5,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import br.com.fdrtec.api.entities.Dica;
+import br.com.fdrtec.api.entities.Peca;
 
 @Stateless
 public class DicaDao {
@@ -14,13 +16,10 @@ public class DicaDao {
 	@PersistenceContext
 	EntityManager em;
 	
-	public List<Dica> getAll(){
-		String query = "select d from Dica d";
-		return em.createQuery(query, Dica.class).getResultList();
-		
-//		String jpql = "select d from Dica d inner join fetch d.pecas p";
-//		TypedQuery<Dica> query = em.createQuery(jpql, Dica.class);
-//		return query.getResultList();
+	public List<Dica> getAll(){		
+		String sql = "select d from Dica d";
+		TypedQuery<Dica> query = em.createQuery(sql, Dica.class);
+		return query.getResultList();
 	}
 	
 	public void persist(Dica item) {
@@ -28,13 +27,17 @@ public class DicaDao {
 	}
 	
 	public void update(Dica itemAtualizado) {
-		Dica candidato = em.find(Dica.class, itemAtualizado.getId());
+		Dica candidato = em.find(Dica.class, itemAtualizado.getId());		
 		candidato = itemAtualizado;
 		em.merge(candidato);
 	}
 	
 	public void remove(Long id) {
 		Dica candidato = em.find(Dica.class, id);
+		for (Peca peca : candidato.getPecas()) {
+		    candidato.removePeca(peca);
+		}
+//		candidato.setPecas(null);
 		em.remove(candidato);
 	}
 

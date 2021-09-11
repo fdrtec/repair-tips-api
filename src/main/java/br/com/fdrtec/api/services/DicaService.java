@@ -26,8 +26,8 @@ public class DicaService {
 		dicaDao.update(dica);
 	}
 	
-	public void remove(Dica dica) {
-		dicaDao.remove(dica.getId());
+	public void remove(Long id) {
+		dicaDao.remove(id);
 	}	
 
 }

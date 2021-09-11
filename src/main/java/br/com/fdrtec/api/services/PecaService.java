@@ -26,8 +26,8 @@ public class PecaService {
 		pecaDao.update(peca);
 	}
 	
-	public void remove(Peca peca) {
-		pecaDao.remove(peca.getId());
+	public void remove(Long id) {
+		pecaDao.remove(id);
 	}
 	
 }

@@ -1,11 +1,10 @@
 package br.com.fdrtec.api.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,7 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "pecas")
 @Entity
 @Table(name = "dica")
 public class Dica implements Serializable {
@@ -49,12 +48,15 @@ public class Dica implements Serializable {
 
 //	private LocalDate registro = LocalDate.now();
 
-//	@ManyToMany(cascade = CascadeType.MERGE)
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)	
 	@JoinTable(name = "dica_peca", joinColumns = @JoinColumn(name = "dica_id"), inverseJoinColumns = @JoinColumn(name = "peca_id"))
     @JsonIgnoreProperties("dicas")	
-	private List<Peca> pecas = new ArrayList<>();
-//	private Set<Peca> pecas = new HashSet<>();
+	private Set<Peca> pecas = new HashSet<>();
+	
+	public void removePeca(Peca peca) {
+        this.pecas.remove(peca);
+        peca.getDicas().remove(this);
+    }
 
 }
