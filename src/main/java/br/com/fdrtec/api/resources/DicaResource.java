@@ -16,37 +16,31 @@ import br.com.fdrtec.api.entities.Dica;
 import br.com.fdrtec.api.services.DicaService;
 
 @Path("dicas")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class DicaResource {
 	
 	@Inject
 	private DicaService dicaService;
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getAll() {
 		return Response.ok(dicaService.getAll()).build();
 	}
 	
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@POST	
 	public Response persist(Dica dica) {
 		dicaService.persist(dica);
 		return Response.ok(Response.Status.OK).build();
 	}
 	
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)	
+	@PUT	
 	public Response update(Dica dica) {
 		dicaService.update(dica);
 		return Response.ok(Response.Status.OK).build();
 	}	
 	
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@DELETE	
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id ) {
 		dicaService.remove(id);

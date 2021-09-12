@@ -16,38 +16,32 @@ import br.com.fdrtec.api.entities.Peca;
 import br.com.fdrtec.api.services.PecaService;
 
 @Path("pecas")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class PecaResource {
 	
 	@Inject
 	private PecaService pecaService;
 	
-	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@GET	
 	public Response getAll() {
 		return Response.ok(pecaService.getAll()).build();		
 	}
 	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@POST	
 	public Response persist(Peca peca) {
 		pecaService.persist(peca);
 		return Response.status(Response.Status.OK).build();
 	}
 	
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@PUT	
 	public Response update(Peca peca) {
 		pecaService.update(peca);
 		return Response.status(Response.Status.OK).build();
 	}
 	
 	
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@DELETE	
 	@Path("/{id}")
 	public Response remove(@PathParam("id") Long id) {
 		pecaService.remove(id);
