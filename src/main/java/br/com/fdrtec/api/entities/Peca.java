@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -44,10 +45,10 @@ public class Peca implements Serializable {
 	private String nomeOriginal;
 
 	@Column(length = 60, nullable = false)
-
 	private String codigo;
 
-	@ManyToMany(mappedBy = "pecas", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JsonIgnoreProperties("pecas")
+	@ManyToMany(mappedBy = "pecas", fetch = FetchType.LAZY, 
+			cascade = {CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH} )
+    @JsonIgnoreProperties("pecas")	
 	private Set<Dica> dicas = new HashSet<>();
-}
+} 

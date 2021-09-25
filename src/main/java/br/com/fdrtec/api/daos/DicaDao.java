@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.fdrtec.api.entities.Dica;
-import br.com.fdrtec.api.entities.Peca;
 
 @Stateless
 public class DicaDao {
@@ -17,9 +16,15 @@ public class DicaDao {
 	EntityManager em;
 	
 	public List<Dica> getAll(){		
-		String sql = "select d from Dica d";
+//		String sql = "select d from Dica d";
+		String sql = "select d from Dica d left join fetch d.pecas";
+
 		TypedQuery<Dica> query = em.createQuery(sql, Dica.class);
 		return query.getResultList();
+	}
+	
+	public Dica getById(Long id) {
+		return em.find(Dica.class, id);
 	}
 	
 	public void persist(Dica item) {
@@ -32,13 +37,31 @@ public class DicaDao {
 		em.merge(candidato);
 	}
 	
+//	@Transactional
 	public void remove(Long id) {
 		Dica candidato = em.find(Dica.class, id);
-		for (Peca peca : candidato.getPecas()) {
-		    candidato.removePeca(peca);
-		}
-//		candidato.setPecas(null);
+		candidato.removePecas();
+//		candidato.getPecas().clear(); 
+		em.merge(candidato);
+		em.flush();
+		
+//		em.refresh(candidato);
 		em.remove(candidato);
-	}
+//		candidato.setPecas(new HashSet<Peca>());
+		
+//		Dica c2 = em.merge(candidato);
+//		em.flush();
 
+//		em.merge(candidato);
+//		em.remove(em.merge(candidato));	
+//		em.remove(c2);
+//		em.flush();
+
+		
+//		for (Peca peca : candidato.getPecas()) {
+//		    candidato.removePeca(peca);
+//		}	
+//		em.flush();
+//		em.merge(candidato);
+	}
 }

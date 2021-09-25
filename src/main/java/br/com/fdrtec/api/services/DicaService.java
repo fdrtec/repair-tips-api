@@ -27,7 +27,11 @@ public class DicaService {
 	}
 	
 	public void remove(Long id) {
-		dicaDao.remove(id);
+		try {
+			dicaDao.remove(id);			
+		} catch (Exception e) {
+			System.out.println(e);		
+		}		
 	}	
 
 }

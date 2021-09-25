@@ -12,12 +12,14 @@ import br.com.fdrtec.api.entities.Peca;
 @Stateless
 public class PecaDao {
 	
+//	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	@PersistenceContext
 	EntityManager em;
 	
 	
 	public List<Peca> getAll() {		
-		String sql = "select p from Peca p";
+//		String sql = "select p from Peca p";
+		String sql = "select p from Peca p left join fetch p.dicas";
 		TypedQuery<Peca> query = em.createQuery(sql, Peca.class);
 		return query.getResultList();
 	}
