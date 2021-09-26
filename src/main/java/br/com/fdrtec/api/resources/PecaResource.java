@@ -1,7 +1,7 @@
 package br.com.fdrtec.api.resources;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,7 +19,7 @@ import br.com.fdrtec.api.services.PecaService;
 @Path("pecas")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Transactional
+@Stateless
 public class PecaResource {
 	
 	@Inject
