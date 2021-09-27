@@ -17,7 +17,7 @@ public class PecaDao {
 	
 	
 	public List<Peca> getAll() {		
-		String sql = "select distinct p from Peca p left join fetch p.dicas";
+		String sql = "select p from Peca p left join fetch p.dicas";
 		TypedQuery<Peca> query = em.createQuery(sql, Peca.class);
 		return query.getResultList();
 	}
