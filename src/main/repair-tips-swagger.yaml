@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info: 
+  title: RepairTips API
+  description: API de testes aos estudos de JEE8 / JAX-RS / EJB / CDI / JPA
+  version: 0.0.1-rc01
+  termsOfService: https://github.com/fdrtec/repair-tips-api
+  contact:
+    name: Developer
+    email: fdrtec@gmail.com
+    url: https://www.linkedin.com/in/fabianoramires/
+  license:
+    name: GPLv3
+    url: https://www.gnu.org/licenses/gpl-3.0
+externalDocs:
+  description: Repositório do código
+  url: https://github.com/fdrtec/repair-tips-api
+servers: 
+- url: http://localhost:8080/repair-tips/
+  description: API via wildfly local
+paths:
+  /dicas:
+    get:
+      summary: Listar dicas
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    titulo:
+                      type: string
+                    descricao: 
+                      type: string
+                    solucao:
+                      type: string
+                    pecas:
+                      type: array
+                      items:
+                        type: object
