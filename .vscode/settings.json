@@ -1,3 +1,4 @@
 {
-    "maven.executable.path": "/usr/bin/mvn"
+    "maven.executable.path": "/usr/bin/mvn",
+    "redhat.telemetry.enabled": true
 }
